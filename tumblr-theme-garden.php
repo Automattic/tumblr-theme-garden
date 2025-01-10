@@ -77,4 +77,4 @@ if ( ! is_file( TTGARDEN_PATH . '/vendor/autoload.php' ) ) {
 require_once TTGARDEN_PATH . '/vendor/autoload.php';
 
 require_once TTGARDEN_PATH . 'functions.php';
-add_action( 'plugins_loaded', array( ttgarden_get_plugin_instance(), 'initialize' ) );
+add_action( 'after_setup_theme', array( ttgarden_get_plugin_instance(), 'initialize' ) );

@@ -28,6 +28,16 @@ class Plugin {
 	public bool $ttgarden_active = false;
 
 	/**
+	 * The customize preview status.
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
+	 * @var     bool
+	 */
+	public bool $customize_preview = false;
+
+	/**
 	 * The hooks component.
 	 *
 	 * @since   1.0.0
@@ -138,10 +148,14 @@ class Plugin {
 	 * @return  void
 	 */
 	public function initialize(): void {
-		$theme      = wp_get_theme();
-		$theme_tags = $theme->get( 'Tags' );
+		$theme                  = wp_get_theme();
+		$theme_tags             = $theme->get( 'Tags' );
+		$is_tumblr_theme_active = is_array( $theme_tags ) && in_array( 'tumblr-theme', $theme_tags, true );
 
-		$this->ttgarden_active = ( is_array( $theme_tags ) ) ? in_array( 'tumblr-theme', $theme_tags, true ) : false;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Get is only checked, not consumed.
+		$theme_slug              = isset( $_GET['theme'] ) ? sanitize_text_field( wp_unslash( $_GET['theme'] ) ) : '';
+		$this->customize_preview = is_customize_preview() && str_contains( $theme_slug, 'tumblr' );
+		$this->ttgarden_active   = $is_tumblr_theme_active || $this->customize_preview;
 
 		// Setup all plugin hooks.
 		$this->hooks = new Hooks();

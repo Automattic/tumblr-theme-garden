@@ -378,16 +378,8 @@ class Customizer {
 		);
 
 		// Parse the theme HTML.
-		global $wp_filesystem;
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-
-		if ( ! WP_Filesystem() ) {
-			wp_die( 'Failed to access the filesystem.' );
-		}
-
 		// Get the HTML content from our templates/index.html file.
-		$theme_html = $wp_filesystem->get_contents( get_template_directory() . '/templates/index.html' );
-
+		$theme_html     = ttgarden_get_theme_html();
 		$processor      = new \WP_HTML_Tag_Processor( $theme_html );
 		$select_options = array();
 

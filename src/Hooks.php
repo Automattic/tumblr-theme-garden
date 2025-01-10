@@ -46,7 +46,7 @@ class Hooks {
 
 		add_filter( 'wp_prepare_themes_for_js', array( $this, 'prepare_themes_for_js' ) );
 
-		// Only run these if the TumblrThemeGarden theme is active.
+		// Only run these if the TumblrThemeGarden theme is active or we're in a customizer preview.
 		if ( $this->is_ttgarden_active ) {
 			add_filter( 'template_include', array( $this, 'template_include' ) );
 

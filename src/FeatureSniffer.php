@@ -98,15 +98,7 @@ array(
 		if ( '' !== $this->html ) {
 			$html = strtolower( $this->html );
 		} else {
-			global $wp_filesystem;
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-
-			if ( ! WP_Filesystem() ) {
-				wp_die( 'Failed to access the filesystem.' );
-			}
-
-			// Get the HTML content from our templates/index.html file.
-			$html = strtolower( $wp_filesystem->get_contents( get_template_directory() . '/templates/index.html' ) );
+			$html = strtolower( ttgarden_get_theme_html() );
 		}
 
 		// Check each unsupported feature.

@@ -193,6 +193,23 @@ function ttgarden_comment_markup( $comment, $args ): void {
 }
 
 /**
+ * Get the Tumblr theme HTML content.
+ *
+ * @return string The HTML content.
+ */
+function ttgarden_get_theme_html(): string {
+	global $wp_filesystem;
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+
+	if ( ! WP_Filesystem() ) {
+		wp_die( 'Failed to access the filesystem.' );
+	}
+
+	// Get the HTML content from our templates/index.html file.
+	return $wp_filesystem->get_contents( get_template_directory() . '/templates/index.html' );
+}
+
+/**
  * This is the main output function for the plugin.
  * This function pulls in the Tumblr theme content and then processes it.
  *
@@ -200,7 +217,7 @@ function ttgarden_comment_markup( $comment, $args ): void {
  */
 function ttgarden_page_output(): void {
 	// Get the HTML content from the themes template part.
-	$content = file_get_contents( get_template_directory() . '/templates/index.html' );
+	$content = ttgarden_get_theme_html();
 
 	// Shortcodes don't currently have a doing_shortcode() or similar.
 	// So we need a global to track the context.
